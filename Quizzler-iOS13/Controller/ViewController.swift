@@ -17,20 +17,24 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var progressiveView: UIProgressView!
     
-    @IBOutlet weak var trueButtonOutlet: UIButton!
-    @IBOutlet weak var falseButtonOutlet: UIButton!
+    @IBOutlet weak var button1: UIButton!
+    @IBOutlet weak var button2: UIButton!
+    @IBOutlet weak var button3: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         updateUI()
-        falseButtonOutlet.layer.cornerRadius = 20
-        trueButtonOutlet.layer.cornerRadius = 20
+        button1.layer.cornerRadius = 20
+        button2.layer.cornerRadius = 20
+        button3.layer.cornerRadius = 20
     }
     
+
+    
     @IBAction func answerButtonAction(_ sender: UIButton) {
-        let userAnswer = sender.currentTitle!
-        
+        let userAnswer = quizBrain.getButtonNames()[sender.tag]
         
         if quizBrain.checkAnswer(userAnswer) {
             sender.backgroundColor = .green
@@ -41,17 +45,22 @@ class ViewController: UIViewController {
         
         quizBrain.nextQuestion()
         
-        
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
     
     @objc func updateUI() {
+        
         label.text = quizBrain.getQuestionText()
         scoresLabel.text = "Scores: \(quizBrain.score)"
         progressiveView.progress = quizBrain.getProgress()
         
-        trueButtonOutlet.backgroundColor = .clear
-        falseButtonOutlet.backgroundColor = .clear
+        button1.setTitle(quizBrain.getButtonNames()[0], for: .normal)
+        button2.setTitle(quizBrain.getButtonNames()[1], for: .normal)
+        button3.setTitle(quizBrain.getButtonNames()[2], for: .normal)
+        
+        button1.backgroundColor = .clear
+        button2.backgroundColor = .clear
+        button3.backgroundColor = .clear
     }
 }
 
